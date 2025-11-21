@@ -23,6 +23,18 @@
         "id": "4",
         "label": "D"
       }
+    },
+    {
+      "data": {
+        "id": "5",
+        "label": "E"
+      }
+    },
+    {
+      "data": {
+        "id": "6",
+        "label": "F"
+      }
     }
   ],
   "edges": [
@@ -30,7 +42,56 @@
       "data": {
         "source": "1",
         "target": "2",
+        "weight": 10
+      }
+    },
+    {
+      "data": {
+        "source": "1",
+        "target": "3",
         "weight": 5
+      }
+    },
+    {
+      "data": {
+        "source": "2",
+        "target": "4",
+        "weight": 8
+      }
+    },
+    {
+      "data": {
+        "source": "3",
+        "target": "4",
+        "weight": 3
+      }
+    },
+    {
+      "data": {
+        "source": "3",
+        "target": "5",
+        "weight": 7
+      }
+    },
+    {
+      "data": {
+        "source": "4",
+        "target": "5",
+        "weight": 6
+      }
+    },
+    {
+      "data": {
+        "source": "4",
+        "target": "6",
+        "weight": 9
+      }
+    },
+    {
+      "data": {
+        "source": "5",
+        "target": "6",
+        "weight": 4
       }
     }
   ]

@@ -90,23 +90,38 @@ const Graph = forwardRef<GraphHandle, GraphProps>(({ reload }, ref) => {
   // ------------------------------
   // Algorithm API functions
   // ------------------------------
+  // In Graph.tsx — replace these three async functions:
   async function runBFS(start: string) {
-    const res = await fetch(`/api/run/bfs?start=${start}`);
+    const res = await fetch("/api/algorithms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "bfs", start }),
+    });
     const data = await res.json();
-    await highlightNodes(Array.isArray(data.bfs_order) ? data.bfs_order.map(String) : []);
+    await highlightNodes(data.bfs_order || []);
   }
 
   async function runDFS(start: string) {
-    const res = await fetch(`/api/run/dfs?start=${start}`);
+    const res = await fetch("/api/algorithms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "dfs", start }),
+    });
     const data = await res.json();
-    await highlightNodes(Array.isArray(data.dfs_order) ? data.dfs_order.map(String) : []);
+    console.log(data);
+    
+    await highlightNodes(data.dfs_order || []);
   }
 
   async function runWidest(src: string, dest: string) {
-    const res = await fetch(`/api/run/widest?src=${src}&dest=${dest}`);
+    const res = await fetch("/api/algorithms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "widest", src, dest }),
+    });
     const data = await res.json();
-    await highlightNodes(Array.isArray(data.widest_path) ? data.widest_path.map(String) : []);
-    await highlightEdges(Array.isArray(data.widest_path_edges) ? data.widest_path_edges : []);
+    await highlightNodes(data.widest_path || []);
+    await highlightEdges(data.widest_path_edges || []);
   }
 
   // ------------------------------
