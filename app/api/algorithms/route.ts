@@ -8,14 +8,14 @@ import { readFile } from "fs/promises";
 const execPromise = promisify(exec);
 
 // File paths
-const RESULTS_PATH = path.join(process.cwd(), "..", "..", "data", "results.json");
-const CPP_EXECUTABLE = path.join(process.cwd(), "..", "..", "cpp", "code");
+const RESULTS_PATH = path.join(process.cwd(), "data", "results.json");
+const CPP_EXECUTABLE = path.join(process.cwd(), "cpp", "code.exe");
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // Validate input and build command
+    // Build command
     let command = `"${CPP_EXECUTABLE}"`;
 
     if (body.type === "bfs") {
@@ -54,14 +54,10 @@ export async function POST(req: Request) {
 
     // Execute C++ program
     console.log(`Executing: ${command}`);
-    console.log("HELLOOOOO");
     await execPromise(command);
 
     // Read results from results.json
-    console.log("HIIII");
     const resultContent = await readFile(RESULTS_PATH, "utf-8");
-    console.log("BYEE");
-    
     const results = JSON.parse(resultContent);
 
     // Return results in the expected format

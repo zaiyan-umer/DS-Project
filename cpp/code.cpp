@@ -42,7 +42,7 @@ Graph buildGraph(const json& graphData) {
         int weight = edge["data"]["weight"];
         
         adj[source].push_back({target, weight});
-        adj[target].push_back({source, weight}); // undirected
+        // adj[target].push_back({source, weight}); // undirected
     }
     
     return adj;
