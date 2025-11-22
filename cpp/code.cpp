@@ -22,8 +22,8 @@ struct Edge {
 typedef map<string, vector<Edge>> Graph;
 
 // Fixed file paths
-const string GRAPH_PATH = "../data/graph.json";
-const string RESULTS_PATH = "../data/results.json";
+const string GRAPH_PATH = "data/graph.json";
+const string RESULTS_PATH = "data/results.json";
 
 // Build adjacency list from JSON (undirected graph)
 Graph buildGraph(const json& graphData) {
