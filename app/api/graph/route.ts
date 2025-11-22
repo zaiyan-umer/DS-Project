@@ -32,7 +32,7 @@ export async function GET() {
 }
 
 /* ================ POST (add) ================ */
-export async function POST(req: Request) {
+export async function POST(req: Request) {  
   const body = await req.json();
   const graph = await loadGraph();
 
@@ -65,18 +65,20 @@ export async function POST(req: Request) {
 export async function DELETE(req: Request) {
   const { type, id } = await req.json();
   const graph = await loadGraph();
+  console.log(type, id);
+  
 
   if (type === "node") {
-    graph.nodes = graph.nodes.filter((n) => n.data.id !== id);
+    graph.nodes = graph.nodes.filter((n) => n.data.id != id);
     graph.edges = graph.edges.filter(
-      (e) => e.data.source !== id && e.data.target !== id
+      (e) => e.data.source !== id && e.data.target != id
     );
   }
 
   if (type === "edge") {
     const [source, target] = id.split("-");
     graph.edges = graph.edges.filter(
-      (e) => !(e.data.source === source && e.data.target === target)
+      (e) => !(e.data.source == source && e.data.target == target)
     );
   }
 

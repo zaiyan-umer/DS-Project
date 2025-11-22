@@ -24,7 +24,7 @@ function buildAdj(graph: Graph) {
 
 // BFS
 function bfs(graph: Graph, start: string): string[] {
-    console.log("in bfs");
+  console.log("in bfs");
   const adj = buildAdj(graph);
   const visited = new Set<string>();
   const order: string[] = [];
@@ -41,7 +41,7 @@ function bfs(graph: Graph, start: string): string[] {
 }
 
 // DFS
-function dfs(graph: Graph, start: string): string[] {  
+function dfs(graph: Graph, start: string): string[] {
   const adj = buildAdj(graph);
   const visited = new Set<string>();
   const order: string[] = [];
@@ -84,7 +84,7 @@ function widestPath(graph: Graph, src: string, dest: string) {
   if (capacity[dest] === 0) return { path: [], edges: [], capacity: 0 };
 
   // Reconstruct path
-const path: string[] = [];
+  const path: string[] = [];
   const edges: { from: string; to: string }[] = [];
   let curr: string | null = dest;
   while (curr !== null) {

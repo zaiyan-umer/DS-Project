@@ -57,40 +57,38 @@ const Graph = forwardRef<GraphHandle, GraphProps>(({ reload }, ref) => {
     const cy = cyRef.current;
     if (!cy) return;
 
-
-    cy.elements().removeClass("highlight debug-highlight");
+    // only remove node highlights (no debug classes)
+    cy.elements().removeClass("node-highlight");
 
     for (const id of ids) {
       const el = cy.getElementById(id);
       if (el.empty()) continue;
 
-      el.addClass("highlight debug-highlight");
+      // add highlight while animating, then remove so node returns to normal
+      el.addClass("node-highlight");
       try { cy.animate({ center: { eles: el }, duration: 250 }); } catch { }
       await sleep(600);
-      el.removeClass("debug-highlight");
+      el.removeClass("node-highlight");
     }
-
-
   }
 
   async function highlightEdges(edges: { from: string; to: string }[]) {
     const cy = cyRef.current;
     if (!cy) return;
 
-
-    cy.elements().removeClass("highlight debug-highlight");
+    // clear previous edge highlights so new run sets fresh state
+    cy.elements().removeClass("edge-highlight");
 
     for (const e of edges) {
       const el = cy.getElementById(`${e.from}-${e.to}`);
       if (el.empty()) continue;
 
-      el.addClass("highlight debug-highlight");
+      // keep edge-highlight after the step so edges remain green
+      el.addClass("edge-highlight");
       try { cy.animate({ center: { eles: el }, duration: 250 }); } catch { }
       await sleep(600);
-      el.removeClass("debug-highlight");
+      // do NOT remove edge-highlight -> edges stay highlighted
     }
-
-
   }
 
   const runBFS = async (start: string) => {
@@ -149,10 +147,61 @@ const Graph = forwardRef<GraphHandle, GraphProps>(({ reload }, ref) => {
       container: containerRef.current,
       elements: [],
       style: [
-        { selector: "node", style: { "background-color": "#2563eb", label: "data(label)", color: "white", "text-valign": "center", "text-halign": "center", width: 30, height: 30 } },
-        { selector: "edge", style: { label: "data(weight)", "line-color": "#9ca3af", "target-arrow-color": "#9ca3af", "target-arrow-shape": "triangle", width: 3, "curve-style": "bezier", color: "#9ca3af" } },
-        { selector: ".highlight", style: { "background-color": "#22c55e", "line-color": "#22c55e", "target-arrow-color": "#22c55e", width: 6 } },
-        { selector: ".debug-highlight", style: { "background-color": "#ff0044", "line-color": "#ff0044", "target-arrow-color": "#ff0044", width: 60, height: 60, "z-index": 9999 } },
+        // base node: blue with white border
+        {
+          selector: "node",
+          style: {
+            "background-color": "#2563eb",
+            label: "data(label)",
+            color: "white",
+            "text-valign": "center",
+            "text-halign": "center",
+            width: 30,
+            height: 30,
+            "border-width": 2,
+            "border-color": "#ffffff",
+            "z-index": 1,
+          },
+        },
+
+        // base edge: white thin line + white arrows
+        {
+          selector: "edge",
+          style: {
+            label: "data(weight)",
+            "line-color": "#ffffff",
+            "target-arrow-color": "#ffffff",
+            "target-arrow-shape": "triangle",
+            width: 3,
+            "curve-style": "bezier",
+            color: "#ffffff",
+            "z-index": 0,
+          },
+        },
+
+        // Node highlight during animation: scale up, turn red, keep white border
+        {
+          selector: "node.node-highlight",
+          style: {
+            "background-color": "#ff0044",
+            width: 56,
+            height: 56,
+            "border-width": 4,
+            "border-color": "#ffffff",
+            "z-index": 9999,
+          },
+        },
+
+        // Edge highlight after animation: turn green and slightly thicker
+        {
+          selector: "edge.edge-highlight",
+          style: {
+            "line-color": "#22c55e",
+            "target-arrow-color": "#22c55e",
+            width: 6, // slightly thicker than base 3
+            "z-index": 9998,
+          },
+        },
       ],
       layout: { name: "cose" },
     });

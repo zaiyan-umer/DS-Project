@@ -25,6 +25,24 @@ const postJSON = async (url: string, body: unknown) => {
   }
 }
 
+// new helper to call DELETE route
+const deleteJSON = async (url: string, body: unknown) => {
+  try {
+    const res = await fetch(url, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    })
+    const ct = res.headers.get("content-type") || ""
+    const data = ct.includes("application/json") ? await res.json().catch(() => null) : await res.text().catch(() => null)
+    console.log("[deleteJSON]", url, { status: res.status, ok: res.ok, data })
+    return { ok: res.ok, status: res.status, data }
+  } catch (err) {
+    console.error("[deleteJSON] failed", err)
+    return null
+  }
+}
+
 const GraphEditor: React.FC<Props> = ({ onSaved }) => {
   const [open, setOpen] = useState(false)
   const [node, setNode] = useState<NodePayload>({ id: "", label: "" })
@@ -58,7 +76,7 @@ const GraphEditor: React.FC<Props> = ({ onSaved }) => {
 
   const handleDelete = async (e: React.FormEvent) => {
     e.preventDefault()
-    await postJSON("/api/graph", deleteItem)
+    await deleteJSON("/api/graph", deleteItem)
     setDeleteItem((prev) => ({ ...prev, id: "" }))
     onSaved?.()
   }
