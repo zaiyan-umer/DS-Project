@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Telephone Network Routing & Traversal System
 
-## Getting Started
+**A graph-based telephone network simulator**  
+Built with React, Next.js, Cytoscape.js and C++ backend  
+*Data Structures & Algorithms Project*
 
-First, run the development server:
+## Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project simulates a telephone communication network modeled as a **weighted undirected graph**:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Nodes → Switching stations  
+- Edges → Transmission lines  
+- Edge weights → Bandwidth (Mbps)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Supported Operations
+- Maximum Bandwidth Path (Widest Path) using modified Dijkstra’s algorithm  
+- BFS and DFS traversals with step-by-step animation  
+- Fully interactive graph visualization  
+- C++ backend handling all core algorithms  
+- JSON-based communication between frontend and backend  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+### Frontend (Next.js + React + Cytoscape.js)
+- Add/remove nodes and edges interactively  
+- Set custom bandwidth on edges  
+- Real-time graph rendering with automatic layouts  
+- Edge labels showing bandwidth values  
+- Highlight maximum-bandwidth path  
+- Animated BFS & DFS traversal  
+- Export current graph as JSON  
 
-To learn more about Next.js, take a look at the following resources:
+### Backend (C++17)
+- Graph stored using adjacency lists  
+- Modified Dijkstra for Widest Path Problem (max-heap)  
+- Standard BFS and DFS implementations  
+- JSON input/output via `nlohmann/json`  
+- High performance using STL containers  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Integration
+- Next.js API route spawns C++ executable (`child_process`)  
+- Seamless JSON request/response cycle  
+- Instant visualization of algorithm results  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tech Stack
 
-## Deploy on Vercel
+- **Frontend**: Next.js, React, Cytoscape.js, TailwindCSS  
+- **Backend**: C++17, nlohmann/json, STL  
+- **Communication**: JSON + Node.js `child_process.exec()`  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Algorithms
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Algorithm            | Purpose                         | Time Complexity |
+|----------------------|----------------------------------|-----------------|
+| Modified Dijkstra    | Maximum bandwidth path           | O(E log V)      |
+| BFS                  | Level-order traversal            | O(V + E)        |
+| DFS                  | Depth-first traversal            | O(V + E)        |
+
+Academic project - free to use, study, and modify for educational purposes.
